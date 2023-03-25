@@ -3,7 +3,7 @@
 using namespace::std;
 
 Ball::Ball() {
-	speed = 6.5f;
+	speed = 7.f;
 
 	pos.x = SCREEN_WIDTH / 2 - size / 2;
 	pos.y = SCREEN_HEIGHT / 2 - size / 2;
@@ -17,11 +17,12 @@ Ball::Ball() {
 	rect.h = size;
 
 	//Events
-	gameOverEvent.type = GAME_OVER_EVENT;
-	gameOverEvent.user.code = 0;
+	
 }
 
 void Ball::Update(Paddle* leftPaddle, Paddle* rightPaddle) {
+	//Set the init win state
+	winState = 0;
 	//Set init pos related to vel
 	pos.x += vel.x * speed;
 	pos.y += vel.y * speed;
@@ -47,13 +48,13 @@ void Ball::Update(Paddle* leftPaddle, Paddle* rightPaddle) {
 	//Check if the ball is out of bounds on the x axis
 	if (pos.x < 0) {
 		//Send the game over event for right side player win
-		gameOverEvent.user.data1 = (void*)1;
-		SDL_PushEvent(&gameOverEvent);
+		winState = 2;
+		ResetBall();
 	}
 	else if (pos.x + size > SCREEN_WIDTH) {
 		//Send the game over event left side player win
-		gameOverEvent.user.data1 = (void*)0;
-		SDL_PushEvent(&gameOverEvent);
+		winState = 1;
+		ResetBall();
 		
 	}
 
@@ -81,4 +82,15 @@ bool Ball::CollisionCheck(Paddle* paddle) {
 	else {
 		return false;
 	}
+}
+
+void Ball::ResetBall() {
+	pos.x = SCREEN_WIDTH / 2 - size / 2;
+	pos.y = SCREEN_HEIGHT / 2 - size / 2;
+
+	vel.x = rand() % 2 == 0 ? 1 : -1;
+	vel.y = rand() % 2 == 0 ? 1 : -1;
+
+	rect.x = (int)pos.x;
+	rect.y = (int)pos.y;
 }

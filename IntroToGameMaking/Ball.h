@@ -9,7 +9,9 @@ public:
 	void Update(Paddle* leftPaddle, Paddle* rightPaddle);
 	bool CollisionCheck(Paddle* paddle);
 	void SetVelocity(float x, float y) { vel.x = x; vel.y = y; }
-
+	int getWinState() { return winState; }
+	void ResetBall();
+	
 	SDL_Rect* GetRect() { return &rect; }
 
 private:
@@ -17,6 +19,6 @@ private:
 	int size = 20;
 	float x, y, speed;
 	SDL_Rect rect;
-	SDL_Event gameOverEvent;
+	int winState = 0;
 };
 

@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\alekb\source\libraries\SDL2-2.26.4\include;C:\Users\avb75\source\libraries\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\alekb\source\libraries\SDL2-2.26.4\lib\x64;C:\Users\avb75\source\libraries\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\alekb\source\libraries\SDL2_TTF\SDL2_ttf-2.20.2\include;C:\Users\alekb\source\libraries\SDL2-2.26.4\include;C:\Users\avb75\source\libraries\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\alekb\source\libraries\SDL2_TTF\SDL2_ttf-2.20.2\lib\x64;C:\Users\alekb\source\libraries\SDL2-2.26.4\lib\x64;C:\Users\avb75\source\libraries\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,7 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2_ttf.lib;SDL2.lib;SDL2main.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -135,12 +135,15 @@
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Paddle.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Paddle.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

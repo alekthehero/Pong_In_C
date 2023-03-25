@@ -2,6 +2,7 @@
 
 #include "Paddle.h"
 #include "Ball.h"
+#include "Score.h"
 
 class Game
 {
@@ -22,5 +23,6 @@ private:
 
 	class Paddle* leftPaddle, * rightPaddle;
 	class Ball* ball;
+	class Score* leftScore, * rightScore;
 };
 

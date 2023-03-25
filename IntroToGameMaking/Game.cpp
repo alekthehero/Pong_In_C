@@ -9,6 +9,10 @@ bool Game::Init() {
 		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
 		return false;
 	}
+	//Init TTF check
+	if (TTF_Init() < 0) {
+		cout << "Error initializing SDL_ttf: " << TTF_GetError() << endl;
+	}
 
 	//Create window and check if created
 	window = SDL_CreateWindow("PONG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
@@ -31,6 +35,10 @@ bool Game::Init() {
 	/// Init Ball
 	ball = new Ball();
 
+	/// Init of Score
+	leftScore = new Score(renderer, 120, 20);
+	rightScore = new Score(renderer, SCREEN_WIDTH - 120, 20);
+	
 	return true;
 }
 
@@ -56,11 +64,6 @@ void Game::HandleEvents() {
 				isRunning = false;
 				break;
 			}
-		case GAME_OVER_EVENT:
-			cout << "Event: " << event.type << endl;
-			cout << "Game Over: " << event.user.data1 << endl;
-			//isRunning = false;
-			break;
 		}
 	}
 
@@ -84,12 +87,27 @@ void Game::HandleEvents() {
 	if (keyStates[SDL_SCANCODE_DOWN]) {
 		rightPaddle->SetDir(1);
 	}
+
+	//Check for winstate
+	if (ball->getWinState() == 1) {
+		//left side won
+		cout << "Left side score" << endl;
+		leftScore->Update();
+		//reset the ball
+	}
+	else if (ball->getWinState() == 2) {
+		//right side won
+		cout << "Right side score" << endl;
+		rightScore->Update();
+		//Reset the ball
+		
+	}
 }
 
 void Game::Update() {
 	leftPaddle->Update();
 	rightPaddle->Update();
-
+	
 	ball->Update(leftPaddle, rightPaddle);
 }
 
@@ -106,6 +124,9 @@ void Game::Draw() {
 	SDL_SetRenderDrawColor(renderer, 200, 100, 100, 255);
 	SDL_RenderFillRect(renderer, ball->GetRect());
 
+	///Draw the score
+	leftScore->Draw();
+	rightScore->Draw();
 
 	SDL_RenderPresent(renderer);
 }

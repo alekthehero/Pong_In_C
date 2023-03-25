@@ -10,5 +10,3 @@ struct Vec2 {
 	float x;
 	float y;
 };
-
-const Uint32 GAME_OVER_EVENT = SDL_USEREVENT + 1;

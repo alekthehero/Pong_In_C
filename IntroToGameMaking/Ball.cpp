@@ -15,6 +15,10 @@ Ball::Ball() {
 	rect.y = (int)pos.y;
 	rect.w = size;
 	rect.h = size;
+
+	//Events
+	gameOverEvent.type = GAME_OVER_EVENT;
+	gameOverEvent.user.code = 0;
 }
 
 void Ball::Update(Paddle* leftPaddle, Paddle* rightPaddle) {
@@ -31,7 +35,7 @@ void Ball::Update(Paddle* leftPaddle, Paddle* rightPaddle) {
 		pos.y = SCREEN_HEIGHT - size;
 		vel.y *= -1;
 	}
-
+	
 	//Check if collision with paddle
 	if (CollisionCheck(leftPaddle)) {
 		vel.x *= -1;
@@ -40,6 +44,19 @@ void Ball::Update(Paddle* leftPaddle, Paddle* rightPaddle) {
 		vel.x *= -1;
 	}
 	
+	//Check if the ball is out of bounds on the x axis
+	if (pos.x < 0) {
+		//Send the game over event for right side player win
+		gameOverEvent.user.data1 = (void*)1;
+		SDL_PushEvent(&gameOverEvent);
+	}
+	else if (pos.x + size > SCREEN_WIDTH) {
+		//Send the game over event left side player win
+		gameOverEvent.user.data1 = (void*)0;
+		SDL_PushEvent(&gameOverEvent);
+		
+	}
+
 	rect.x = (int)pos.x;
 	rect.y = (int)pos.y;
 }
@@ -52,6 +69,13 @@ bool Ball::CollisionCheck(Paddle* paddle) {
 		pos.y <= paddle->GetPos().y + paddle->GetRect()->h) {//Top ball -> bottom paddle
 		//Collistion
 		cout << "Collision" << endl;
+		//Keep the ball outside the collider
+		if (paddle->GetId() == 0) {
+			pos.x = paddle->GetPos().x + paddle->GetRect()->w;
+		}
+		else if (paddle->GetId() == 1) {
+			pos.x = paddle->GetPos().x - size;
+		}
 		return true;
 	}
 	else {

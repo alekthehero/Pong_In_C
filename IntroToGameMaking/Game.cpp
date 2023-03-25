@@ -1,4 +1,7 @@
 #include "Game.h"
+#include <iostream>
+
+using namespace std;
 
 bool Game::Init() {
 	//Init SDL Check
@@ -44,16 +47,25 @@ void Game::HandleEvents() {
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_QUIT:
+			cout << "Event: " << event.type << endl;
 			isRunning = false;
+			break;
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym) {
+			case SDLK_ESCAPE:
+				isRunning = false;
+				break;
+			}
+		case GAME_OVER_EVENT:
+			cout << "Event: " << event.type << endl;
+			cout << "Game Over: " << event.user.data1 << endl;
+			//isRunning = false;
 			break;
 		}
 	}
 
 	const Uint8* keyStates = SDL_GetKeyboardState(NULL);
 
-	if (keyStates[SDL_SCANCODE_ESCAPE]) {
-		isRunning = false;
-	}
 
 	///Paddle movement
 	leftPaddle->SetDir(0);

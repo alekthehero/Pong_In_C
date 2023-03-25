@@ -17,5 +17,6 @@ private:
 	int size = 20;
 	float x, y, speed;
 	SDL_Rect rect;
+	SDL_Event gameOverEvent;
 };
 

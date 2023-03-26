@@ -38,6 +38,8 @@ bool Game::Init() {
 	/// Init of Score
 	leftScore = new Score(renderer, 120, 20);
 	rightScore = new Score(renderer, SCREEN_WIDTH - 120, 20);
+	leftScore->Draw();
+	rightScore->Draw();
 	
 	return true;
 }
